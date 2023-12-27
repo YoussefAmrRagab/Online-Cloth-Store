@@ -6,7 +6,7 @@ import 'src/data/repositories/auth_repository_impl.dart';
 import 'src/data/data_sources/remote/auth_service.dart';
 import 'src/data/data_sources/remote/remote_services.dart';
 import 'src/data/data_sources/remote/storage_service.dart';
-import 'src/presentation/providers/splash_provider.dart';
+import 'src/presentation/providers/app_provider.dart';
 import 'package:provider/provider.dart';
 import 'src/data/data_sources/remote/firebase_service.dart';
 import 'src/presentation/providers/signup_provider.dart';
@@ -35,7 +35,7 @@ Future<void> main() async {
           create: (context) => SignupProvider(authRepository),
         ),
         ChangeNotifierProvider(
-          create: (context) => SplashProvider(repository),
+          create: (context) => AppProvider(repository),
         ),
         ChangeNotifierProvider(
           create: (context) => HomeProvider(repository),

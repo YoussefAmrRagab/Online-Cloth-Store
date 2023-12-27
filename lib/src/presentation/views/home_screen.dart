@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../presentation/providers/home_provider.dart';
 import '../../util/extensions/extensions.dart';
-import '../../presentation/providers/splash_provider.dart';
+import '../../presentation/providers/app_provider.dart';
 import '../../util/constants/constants.dart';
 import '../../util/resources/colors.dart';
 import '../../util/resources/dimens.dart';
@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SplashProvider>(context, listen: false);
+    final provider = Provider.of<AppProvider>(context, listen: false);
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     return Column(
@@ -39,8 +39,12 @@ class HomeScreen extends StatelessWidget {
                   const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
-              itemBuilder: (_, index) =>
-                  ProductCard(product: provider.products[index]),
+              itemBuilder: (_, index) => ProductCard(
+                product: provider.products[index],
+                productIndex: index,
+                onFavouriteClick: () =>
+                    provider.onFavouriteClick(provider.products[index]),
+              ),
             ),
           ),
         ),
@@ -163,7 +167,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Padding header(SplashProvider provider) {
+  Padding header(AppProvider provider) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Row(
@@ -196,7 +200,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  ClipOval userImage(SplashProvider provider) {
+  ClipOval userImage(AppProvider provider) {
     return ClipOval(
       child: CircleAvatar(
         radius: Dimensions.s28,

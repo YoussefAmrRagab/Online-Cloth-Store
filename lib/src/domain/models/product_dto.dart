@@ -9,6 +9,7 @@ class ProductDTO {
   String brand;
   List<String> sizes;
   late String imageUrl;
+  bool isFavourite = false;
 
   String get imagePath => 'products/$id.png';
 
@@ -25,13 +26,26 @@ class ProductDTO {
   });
 
   factory ProductDTO.fromJson(Map<String, dynamic> json) => ProductDTO(
-      category: json["Category"],
-      description: json["Description"],
-      gender: json["Gender"],
-      id: json["ID"],
-      name: json["Name"],
-      price: json["Price"],
-      rating: json["Rating"],
-      brand: json["Brand"],
-      sizes: List.from(json["Sizes"]));
+        category: json["Category"],
+        description: json["Description"],
+        gender: json["Gender"],
+        id: json["ID"],
+        name: json["Name"],
+        price: json["Price"],
+        rating: json["Rating"],
+        brand: json["Brand"],
+        sizes: List.from(json["Sizes"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "Category": category,
+        "Description": description,
+        "Gender": gender,
+        "ID": id,
+        "Name": name,
+        "Price": price,
+        "Rating": rating,
+        "Brand": brand,
+        "Sizes": List.from(sizes),
+      };
 }

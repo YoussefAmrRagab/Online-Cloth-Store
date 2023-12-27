@@ -5,10 +5,10 @@ import '../../domain/models/product_dto.dart';
 import '../../domain/models/user_dto.dart';
 import '../../domain/repositories/repository.dart';
 
-class SplashProvider extends ChangeNotifier {
+class AppProvider extends ChangeNotifier {
   late final Repository _repository;
 
-  SplashProvider(
+  AppProvider(
     this._repository,
   );
 
@@ -18,7 +18,9 @@ class SplashProvider extends ChangeNotifier {
   Future<String> fetchData() async {
     final userResponse = await _repository.getUser();
     if (userResponse is! UserDTO) {
-      (userResponse as String).showToast;
+      if (userResponse != null) {
+        (userResponse as String).showToast;
+      }
       return RoutesName.loginRoute;
     }
     user = userResponse;
@@ -29,6 +31,21 @@ class SplashProvider extends ChangeNotifier {
     }
     this.products = products;
 
+    for (var e in user.favourites) {
+      int index = this.products.indexWhere((element) => element.id == e.id);
+      if (index > -1) {
+        this.products[index].isFavourite = true;
+      }
+    }
+
     return RoutesName.mainRoute;
+  }
+
+  void onFavouriteClick(ProductDTO product) {
+    product.isFavourite
+        ? user.deleteFromFavourite(product)
+        : user.addToFavourite(product);
+    _repository.updateUserFavourites(user.favouriteAsMap);
+    notifyListeners();
   }
 }

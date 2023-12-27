@@ -50,6 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
         height: height,
         gender: gender,
         imageUrl: imagePath ?? "",
+        favourites: [],
       );
       return _uploadUserDataToDatabase(user, imagePath);
     });

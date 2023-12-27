@@ -14,6 +14,7 @@ class ErrorHandler extends Failure {
   late Failure failure;
 
   ErrorHandler.handle(super.message) {
+    debugPrint('ErrorHandler: $message');
     if (message is FirebaseAuthException) {
       debugPrint(
         'auth exception code : ${(message as FirebaseAuthException).code} ${(message as FirebaseAuthException).message}',

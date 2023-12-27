@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../util/constants/constants.dart';
 import 'package:provider/provider.dart';
-import '../providers/splash_provider.dart';
+import '../providers/app_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    context.read<SplashProvider>().fetchData().then((routesName) {
+    context.read<AppProvider>().fetchData().then((routesName) {
       Navigator.of(context).pushReplacementNamed(routesName);
     });
     super.initState();

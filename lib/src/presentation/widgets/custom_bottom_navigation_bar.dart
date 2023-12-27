@@ -82,7 +82,7 @@ class BottomNavigationButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 240),
         width: currentIndex == index ? size * 1.428 : size,
         height: size,
         decoration: BoxDecoration(

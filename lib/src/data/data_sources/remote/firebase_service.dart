@@ -32,4 +32,13 @@ class FirebaseService {
     Object response = snapshot.value ?? [];
     return response as List;
   }
+
+  Future<void> updateUserFavourites(
+    String userId,
+    List<Map<String, dynamic>> userFavourites,
+  ) async =>
+      await _database
+          .collection(StringManager.usersCollection)
+          .doc(userId)
+          .update({'favourites': userFavourites});
 }

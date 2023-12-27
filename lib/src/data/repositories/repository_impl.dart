@@ -24,7 +24,7 @@ class RepositoryImpl implements Repository {
       if (res.isNotEmpty) {
         for (var item in res) {
           ProductDTO product = ProductDTO.fromJson(Map.from(item));
-          product.imageUrl = await getProductImageUrl(product.imagePath);
+          product.imageUrl = await _getProductImageUrl(product.imagePath);
           productList.add(product);
         }
       }
@@ -32,7 +32,7 @@ class RepositoryImpl implements Repository {
     });
   }
 
-  Future<String> getProductImageUrl(String imagePath) async {
+  Future<String> _getProductImageUrl(String imagePath) async {
     FailureEither<String> imageResponse =
         await executeAndHandleError<String>(() async {
       return await _dataSource.storageService.getImageUrl(imagePath);
@@ -73,6 +73,23 @@ class RepositoryImpl implements Repository {
       return user;
     });
   }
+
+  @override
+  Future<String> updateUserData(UserDTO user) {
+    // TODO: implement updateUserData
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateUserFavourites(
+    List<Map<String, dynamic>> userFavouritesList,
+  ) async =>
+      await executeAndHandleError<void>(() async {
+        return await _dataSource.firebaseService.updateUserFavourites(
+          _dataSource.authService.userId,
+          userFavouritesList,
+        );
+      });
 
   Future<Either<Failure, T>> executeAndHandleError<T>(
     Future<T> Function() function,
