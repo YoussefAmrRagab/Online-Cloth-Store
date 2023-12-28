@@ -38,7 +38,7 @@ Future<void> main() async {
           create: (context) => AppProvider(repository),
         ),
         ChangeNotifierProvider(
-          create: (context) => HomeProvider(repository),
+          create: (context) => HomeProvider(),
         )
       ],
       child: const Application(),

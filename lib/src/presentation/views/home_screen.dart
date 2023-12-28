@@ -28,22 +28,24 @@ class HomeScreen extends StatelessWidget {
         header(provider),
         searchAndFilterBar(),
         6.marginHeight,
-        chipGroup(homeProvider),
+        chipGroup(homeProvider, provider),
         4.marginHeight,
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: MasonryGridView.builder(
-              itemCount: provider.products.length,
-              gridDelegate:
-                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (_, index) => ProductCard(
-                product: provider.products[index],
-                productIndex: index,
-                onFavouriteClick: () =>
-                    provider.onFavouriteClick(provider.products[index]),
+            child: Consumer<AppProvider>(
+              builder: (_, __, ___) => MasonryGridView.builder(
+                itemCount: provider.products.length,
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                ),
+                itemBuilder: (_, index) => ProductCard(
+                  product: provider.products[index],
+                  productIndex: index,
+                  onFavouriteClick: () =>
+                      provider.onFavouriteClick(provider.products[index]),
+                ),
               ),
             ),
           ),
@@ -52,7 +54,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView chipGroup(HomeProvider homeProvider) {
+  SingleChildScrollView chipGroup(
+    HomeProvider homeProvider,
+    AppProvider provider,
+  ) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -62,7 +67,10 @@ class HomeScreen extends StatelessWidget {
             selector: (_, provider) => provider.chip1,
             builder: (_, value, __) => CustomFilterChip(
               text: 'All Items',
-              onClick: () => homeProvider.toggleChip1(),
+              onClick: () {
+                List<String> filtersText = homeProvider.toggleChip1();
+                provider.filterProducts(filtersText);
+              },
               isSelected: value,
             ),
           ),
@@ -71,7 +79,10 @@ class HomeScreen extends StatelessWidget {
             selector: (_, provider) => provider.chip2,
             builder: (_, value, __) => CustomFilterChip(
               text: 'Smart Casual Outfits',
-              onClick: () => homeProvider.toggleChip2(),
+              onClick: () {
+                List<String> filtersText = homeProvider.toggleChip2();
+                provider.filterProducts(filtersText);
+              },
               isSelected: value,
             ),
           ),
@@ -80,7 +91,10 @@ class HomeScreen extends StatelessWidget {
             selector: (_, provider) => provider.chip3,
             builder: (_, value, __) => CustomFilterChip(
               text: 'Uni Outfits',
-              onClick: () => homeProvider.toggleChip3(),
+              onClick: () {
+                List<String> filtersText = homeProvider.toggleChip3();
+                provider.filterProducts(filtersText);
+              },
               isSelected: value,
             ),
           ),
@@ -89,7 +103,10 @@ class HomeScreen extends StatelessWidget {
             selector: (_, provider) => provider.chip4,
             builder: (_, value, __) => CustomFilterChip(
               text: 'Sporty Outfits',
-              onClick: () => homeProvider.toggleChip4(),
+              onClick: () {
+                List<String> filtersText = homeProvider.toggleChip4();
+                provider.filterProducts(filtersText);
+              },
               isSelected: value,
             ),
           ),
@@ -98,7 +115,10 @@ class HomeScreen extends StatelessWidget {
             selector: (_, provider) => provider.chip5,
             builder: (_, value, __) => CustomFilterChip(
               text: 'Formal Outfits',
-              onClick: () => homeProvider.toggleChip5(),
+              onClick: () {
+                List<String> filtersText = homeProvider.toggleChip5();
+                provider.filterProducts(filtersText);
+              },
               isSelected: value,
             ),
           ),

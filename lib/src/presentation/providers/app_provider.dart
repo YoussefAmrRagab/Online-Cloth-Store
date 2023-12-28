@@ -12,7 +12,11 @@ class AppProvider extends ChangeNotifier {
     this._repository,
   );
 
-  List<ProductDTO> products = [];
+  List<ProductDTO> _originalProducts = [];
+  final List<ProductDTO> _filteredProducts = [];
+
+  List<ProductDTO> get products =>
+      _filteredProducts.isNotEmpty ? _filteredProducts : _originalProducts;
   late UserDTO user;
 
   Future<String> fetchData() async {
@@ -29,7 +33,7 @@ class AppProvider extends ChangeNotifier {
     if (products is! List<ProductDTO>) {
       (products as String).showToast;
     }
-    this.products = products;
+    _originalProducts = products;
 
     for (var e in user.favourites) {
       int index = this.products.indexWhere((element) => element.id == e.id);
@@ -46,6 +50,20 @@ class AppProvider extends ChangeNotifier {
         ? user.deleteFromFavourite(product)
         : user.addToFavourite(product);
     _repository.updateUserFavourites(user.favouriteAsMap);
+    notifyListeners();
+  }
+
+  void filterProducts(List<String> filtersText) {
+    _filteredProducts.clear();
+    for (var filterText in filtersText) {
+      _filteredProducts.addAll(
+        _originalProducts.where(
+          (element) =>
+              filterText == 'All' ? true : element.category == filterText,
+        ),
+      );
+      debugPrint(filterText);
+    }
     notifyListeners();
   }
 }
